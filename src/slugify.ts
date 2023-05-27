@@ -21,10 +21,13 @@ export type SlugifyOptions = {
  * @param options - The options to use when converting the slug.
  * @returns {string} The converted slug.
  */
-export const slugify = (
-  value: string,
-  options: SlugifyOptions = { trim: true },
-): string => {
+export const slugify = (value: string, options?: SlugifyOptions): string => {
+  // Add default options
+  const optionsWithDefaults: SlugifyOptions = {
+    trim: true,
+    ...options,
+  };
+
   if (!isString(value) || value.length === 0) {
     return '';
   }
@@ -40,22 +43,16 @@ export const slugify = (
   let lastCharWasSpecialOrSpace = false;
 
   for (const char of value.trim()) {
+    // If the character is a space add a dash if the last character wasn't a space or special character
     if (char === ' ' && !lastCharWasSpecialOrSpace) {
       slug += '-';
       lastCharWasSpecialOrSpace = true;
-    } else if (isSpecialChar(char) && !lastCharWasSpecialOrSpace) {
+    }
+    // If the character is a special character add it if the last character wasn't a space or special character
+    else if (isSpecialChar(char) && !lastCharWasSpecialOrSpace) {
       slug += char;
       lastCharWasSpecialOrSpace = true;
     }
-    //
-    // // If the character is a space or a special character
-    // if (char === ' ' || isSpecialChar(char)) {
-    //   // Only add a dash if the last character wasn't a space or special character
-    //   if (!lastCharWasSpecialOrSpace) {
-    //     slug += char;
-    //     lastCharWasSpecialOrSpace = true;
-    //   }
-    // }
     // If the character is alphanumeric, add it to the slug
     else if (/[a-zA-Z0-9]/.test(char)) {
       slug += char;
@@ -63,7 +60,7 @@ export const slugify = (
     }
   }
 
-  if (options.trim) {
+  if (optionsWithDefaults.trim) {
     // If the slug starts or ends with a special character, remove it
     if (specialChars.some((char) => slug.startsWith(char))) {
       slug = slug.slice(1);
@@ -74,9 +71,9 @@ export const slugify = (
     }
   }
 
-  if (options.case === 'lower') {
+  if (optionsWithDefaults.case === 'lower') {
     slug = slug.toLowerCase();
-  } else if (options.case === 'upper') {
+  } else if (optionsWithDefaults.case === 'upper') {
     slug = slug.toUpperCase();
   }
 
