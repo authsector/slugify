@@ -41,4 +41,14 @@ describe('slugify', () => {
     expect(slugify('  Hello..  World__ ')).toBe('Hello-World');
     expect(slugify('. Hello..  World__ .')).toBe('Hello-World');
   });
+
+  it('should lowercase the string when the option is set', () => {
+    expect(slugify('Hello World', { case: 'lower' })).toBe('hello-world');
+    expect(slugify('Hello World')).toBe('Hello-World');
+  });
+
+  it('should uppercase the string when the option is set', () => {
+    expect(slugify('Hello World', { case: 'upper' })).toBe('HELLO-WORLD');
+    expect(slugify('Hello World')).toBe('Hello-World');
+  });
 });

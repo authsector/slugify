@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.slugify = void 0;
 const is_string_1 = require("./utils/is-string");
-const slugify = (value) => {
+const slugify = (value, options = {}) => {
     if (!(0, is_string_1.isString)(value) || value.length === 0) {
         return '';
     }
@@ -29,6 +29,12 @@ const slugify = (value) => {
     }
     if (slug.endsWith('-')) {
         slug = slug.slice(0, -1);
+    }
+    if (options.case === 'lower') {
+        slug = slug.toLowerCase();
+    }
+    else if (options.case === 'upper') {
+        slug = slug.toUpperCase();
     }
     return slug;
 };

@@ -1,5 +1,9 @@
 import { isString } from './utils/is-string';
 
+export type SlugifyOptions = {
+  case?: 'lower' | 'upper';
+};
+
 /**
  * Convert a given string into a slug.
  *
@@ -10,9 +14,13 @@ import { isString } from './utils/is-string';
  * 4. Ensuring no leading or trailing special characters.
  *
  * @param {string} value - The string to convert.
+ * @param options - The options to use when converting the slug.
  * @returns {string} The converted slug.
  */
-export const slugify = (value: string): string => {
+export const slugify = (
+  value: string,
+  options: SlugifyOptions = {},
+): string => {
   if (!isString(value) || value.length === 0) {
     return '';
   }
@@ -47,8 +55,15 @@ export const slugify = (value: string): string => {
   if (slug.startsWith('-')) {
     slug = slug.slice(1);
   }
+
   if (slug.endsWith('-')) {
     slug = slug.slice(0, -1);
+  }
+
+  if (options.case === 'lower') {
+    slug = slug.toLowerCase();
+  } else if (options.case === 'upper') {
+    slug = slug.toUpperCase();
   }
 
   return slug;
