@@ -2,7 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.slugify = void 0;
 const is_string_1 = require("./utils/is-string");
-const slugify = (value, options = { trim: true }) => {
+const slugify = (value, options) => {
+    const optionsWithDefaults = {
+        trim: true,
+        ...options,
+    };
     if (!(0, is_string_1.isString)(value) || value.length === 0) {
         return '';
     }
@@ -26,7 +30,7 @@ const slugify = (value, options = { trim: true }) => {
             lastCharWasSpecialOrSpace = false;
         }
     }
-    if (options.trim) {
+    if (optionsWithDefaults.trim) {
         if (specialChars.some((char) => slug.startsWith(char))) {
             slug = slug.slice(1);
         }
@@ -34,10 +38,10 @@ const slugify = (value, options = { trim: true }) => {
             slug = slug.slice(0, -1);
         }
     }
-    if (options.case === 'lower') {
+    if (optionsWithDefaults.case === 'lower') {
         slug = slug.toLowerCase();
     }
-    else if (options.case === 'upper') {
+    else if (optionsWithDefaults.case === 'upper') {
         slug = slug.toUpperCase();
     }
     return slug;

@@ -1,2 +1,3 @@
-# compiled output
+# Compiled output
 /node_modules
+/coverage
