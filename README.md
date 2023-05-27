@@ -1,0 +1,1 @@
+# AuthSector Slugify
