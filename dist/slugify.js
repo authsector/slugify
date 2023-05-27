@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.slugify = void 0;
 const is_string_1 = require("./utils/is-string");
-const slugify = (value, options = {}) => {
+const slugify = (value, options = { trim: true }) => {
     if (!(0, is_string_1.isString)(value) || value.length === 0) {
         return '';
     }
@@ -26,7 +26,7 @@ const slugify = (value, options = {}) => {
             lastCharWasSpecialOrSpace = false;
         }
     }
-    if (options.trim !== false) {
+    if (options.trim) {
         if (specialChars.some((char) => slug.startsWith(char))) {
             slug = slug.slice(1);
         }

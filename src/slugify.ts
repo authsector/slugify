@@ -2,6 +2,9 @@ import { isString } from './utils/is-string';
 
 export type SlugifyOptions = {
   case?: 'lower' | 'upper';
+  /**
+   * @default true
+   */
   trim?: boolean;
 };
 
@@ -20,7 +23,7 @@ export type SlugifyOptions = {
  */
 export const slugify = (
   value: string,
-  options: SlugifyOptions = {},
+  options: SlugifyOptions = { trim: true },
 ): string => {
   if (!isString(value) || value.length === 0) {
     return '';
@@ -60,7 +63,7 @@ export const slugify = (
     }
   }
 
-  if (options.trim !== false) {
+  if (options.trim) {
     // If the slug starts or ends with a special character, remove it
     if (specialChars.some((char) => slug.startsWith(char))) {
       slug = slug.slice(1);
