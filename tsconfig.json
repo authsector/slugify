@@ -9,5 +9,6 @@
     "incremental": true,
     "strict": true,
     "removeComments": true,
+    "allowSyntheticDefaultImports": true
   }
 }
