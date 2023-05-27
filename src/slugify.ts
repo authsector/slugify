@@ -2,6 +2,7 @@ import { isString } from './utils/is-string';
 
 export type SlugifyOptions = {
   case?: 'lower' | 'upper';
+  trim?: boolean;
 };
 
 /**
@@ -36,14 +37,22 @@ export const slugify = (
   let lastCharWasSpecialOrSpace = false;
 
   for (const char of value.trim()) {
-    // If the character is a space or a special character
-    if (char === ' ' || isSpecialChar(char)) {
-      // Only add a dash if the last character wasn't a space or special character
-      if (!lastCharWasSpecialOrSpace) {
-        slug += '-';
-        lastCharWasSpecialOrSpace = true;
-      }
+    if (char === ' ' && !lastCharWasSpecialOrSpace) {
+      slug += '-';
+      lastCharWasSpecialOrSpace = true;
+    } else if (isSpecialChar(char) && !lastCharWasSpecialOrSpace) {
+      slug += char;
+      lastCharWasSpecialOrSpace = true;
     }
+    //
+    // // If the character is a space or a special character
+    // if (char === ' ' || isSpecialChar(char)) {
+    //   // Only add a dash if the last character wasn't a space or special character
+    //   if (!lastCharWasSpecialOrSpace) {
+    //     slug += char;
+    //     lastCharWasSpecialOrSpace = true;
+    //   }
+    // }
     // If the character is alphanumeric, add it to the slug
     else if (/[a-zA-Z0-9]/.test(char)) {
       slug += char;
@@ -51,13 +60,15 @@ export const slugify = (
     }
   }
 
-  // If the slug starts or ends with a special character, remove it
-  if (slug.startsWith('-')) {
-    slug = slug.slice(1);
-  }
+  if (options.trim !== false) {
+    // If the slug starts or ends with a special character, remove it
+    if (specialChars.some((char) => slug.startsWith(char))) {
+      slug = slug.slice(1);
+    }
 
-  if (slug.endsWith('-')) {
-    slug = slug.slice(0, -1);
+    if (specialChars.some((char) => slug.endsWith(char))) {
+      slug = slug.slice(0, -1);
+    }
   }
 
   if (options.case === 'lower') {

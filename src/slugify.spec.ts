@@ -9,23 +9,33 @@ describe('slugify', () => {
   });
 
   it('should handle special characters correctly', () => {
-    expect(slugify('Hello_World')).toBe('Hello-World');
+    expect(slugify('Hello_World')).toBe('Hello_World');
     expect(slugify('.Envpilot')).toBe('Envpilot');
     expect(slugify('Envpilot.')).toBe('Envpilot');
     expect(slugify('Envpilot...')).toBe('Envpilot');
-    expect(slugify('Hello..World')).toBe('Hello-World');
-    expect(slugify('.Hello..World.')).toBe('Hello-World');
+    expect(slugify('Hello..World')).toBe('Hello.World');
+    expect(slugify('.Hello..World.')).toBe('Hello.World');
   });
 
   it('should handle consecutive special characters and spaces correctly', () => {
-    expect(slugify('Hello__World')).toBe('Hello-World');
-    expect(slugify('Hello..World')).toBe('Hello-World');
+    expect(slugify('Hello__World')).toBe('Hello_World');
+    expect(slugify('Hello..World')).toBe('Hello.World');
     expect(slugify('Hello--World')).toBe('Hello-World');
     expect(slugify('Hello   World')).toBe('Hello-World');
   });
 
   it('should trim leading and trailing spaces correctly', () => {
     expect(slugify('  Hello World  ')).toBe('Hello-World');
+  });
+
+  it('should trim leading and trailing special characters correctly', function () {
+    expect(slugify('..Hello World..')).toBe('Hello-World');
+    expect(slugify('Hello World..')).toBe('Hello-World');
+    expect(slugify('..Hello World')).toBe('Hello-World');
+    expect(slugify('Hello World.', { trim: false })).toBe('Hello-World.');
+    expect(slugify('Hello World-', { trim: false })).toBe('Hello-World-');
+    expect(slugify('Hello World__', { trim: false })).toBe('Hello-World_');
+    expect(slugify('.Hello World__', { trim: false })).toBe('.Hello-World_');
   });
 
   it('should handle empty strings and non-string inputs', () => {
@@ -38,8 +48,8 @@ describe('slugify', () => {
   });
 
   it('should handle combinations of rules', () => {
-    expect(slugify('  Hello..  World__ ')).toBe('Hello-World');
-    expect(slugify('. Hello..  World__ .')).toBe('Hello-World');
+    expect(slugify('  Hello..  World__ ')).toBe('Hello.World');
+    expect(slugify('. Hello-_-  World__ .')).toBe('Hello-World');
   });
 
   it('should lowercase the string when the option is set', () => {

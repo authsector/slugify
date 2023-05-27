@@ -13,22 +13,26 @@ const slugify = (value, options = {}) => {
     let slug = '';
     let lastCharWasSpecialOrSpace = false;
     for (const char of value.trim()) {
-        if (char === ' ' || isSpecialChar(char)) {
-            if (!lastCharWasSpecialOrSpace) {
-                slug += '-';
-                lastCharWasSpecialOrSpace = true;
-            }
+        if (char === ' ' && !lastCharWasSpecialOrSpace) {
+            slug += '-';
+            lastCharWasSpecialOrSpace = true;
+        }
+        else if (isSpecialChar(char) && !lastCharWasSpecialOrSpace) {
+            slug += char;
+            lastCharWasSpecialOrSpace = true;
         }
         else if (/[a-zA-Z0-9]/.test(char)) {
             slug += char;
             lastCharWasSpecialOrSpace = false;
         }
     }
-    if (slug.startsWith('-')) {
-        slug = slug.slice(1);
-    }
-    if (slug.endsWith('-')) {
-        slug = slug.slice(0, -1);
+    if (options.trim !== false) {
+        if (specialChars.some((char) => slug.startsWith(char))) {
+            slug = slug.slice(1);
+        }
+        if (specialChars.some((char) => slug.endsWith(char))) {
+            slug = slug.slice(0, -1);
+        }
     }
     if (options.case === 'lower') {
         slug = slug.toLowerCase();
