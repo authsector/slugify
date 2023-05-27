@@ -1,7 +1,7 @@
 {
-  "name": "@authsector/slugify",
+  "name": "slugify",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "index.ts",
   "private": false,
   "repository": "https://github.com/AuthSector/slugify.git",
   "license": "MIT",
