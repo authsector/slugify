@@ -10,9 +10,11 @@ describe('slugify', () => {
 
   it('should handle special characters correctly', () => {
     expect(slugify('Hello_World')).toBe('Hello_World');
+    expect(slugify('Hello-World')).toBe('Hello-World');
     expect(slugify('.Envpilot')).toBe('Envpilot');
     expect(slugify('Envpilot.')).toBe('Envpilot');
     expect(slugify('Envpilot...')).toBe('Envpilot');
+    expect(slugify('Hello.World')).toBe('HelloWorld');
     expect(slugify('Hello..World')).toBe('HelloWorld');
     expect(slugify('.Hello..World.')).toBe('HelloWorld');
   });
