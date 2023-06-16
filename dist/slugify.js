@@ -10,7 +10,7 @@ const slugify = (value, options) => {
     if (!(0, is_string_1.isString)(value) || value.length === 0) {
         return '';
     }
-    const specialChars = ['.', '_', '-'];
+    const specialChars = ['_', '-'];
     const isSpecialChar = (char) => {
         return specialChars.includes(char);
     };
