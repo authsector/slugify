@@ -13,13 +13,13 @@ describe('slugify', () => {
     expect(slugify('.Envpilot')).toBe('Envpilot');
     expect(slugify('Envpilot.')).toBe('Envpilot');
     expect(slugify('Envpilot...')).toBe('Envpilot');
-    expect(slugify('Hello..World')).toBe('Hello.World');
-    expect(slugify('.Hello..World.')).toBe('Hello.World');
+    expect(slugify('Hello..World')).toBe('HelloWorld');
+    expect(slugify('.Hello..World.')).toBe('HelloWorld');
   });
 
   it('should handle consecutive special characters and spaces correctly', () => {
     expect(slugify('Hello__World')).toBe('Hello_World');
-    expect(slugify('Hello..World')).toBe('Hello.World');
+    expect(slugify('Hello..World')).toBe('HelloWorld');
     expect(slugify('Hello--World')).toBe('Hello-World');
     expect(slugify('Hello   World')).toBe('Hello-World');
   });
@@ -32,10 +32,10 @@ describe('slugify', () => {
     expect(slugify('..Hello World..')).toBe('Hello-World');
     expect(slugify('Hello World..')).toBe('Hello-World');
     expect(slugify('..Hello World')).toBe('Hello-World');
-    expect(slugify('Hello World.', { trim: false })).toBe('Hello-World.');
+    expect(slugify('Hello World.', { trim: false })).toBe('Hello-World');
     expect(slugify('Hello World-', { trim: false })).toBe('Hello-World-');
     expect(slugify('Hello World__', { trim: false })).toBe('Hello-World_');
-    expect(slugify('.Hello World__', { trim: false })).toBe('.Hello-World_');
+    expect(slugify('.Hello World__', { trim: false })).toBe('Hello-World_');
   });
 
   it('should handle empty strings and non-string inputs', () => {
@@ -48,7 +48,7 @@ describe('slugify', () => {
   });
 
   it('should handle combinations of rules', () => {
-    expect(slugify('  Hello..  World__ ')).toBe('Hello.World');
+    expect(slugify('  Hello..  World__ ')).toBe('Hello-World');
     expect(slugify('. Hello-_-  World__ .')).toBe('Hello-World');
   });
 

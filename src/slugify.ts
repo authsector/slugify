@@ -32,7 +32,7 @@ export const slugify = (value: string, options?: SlugifyOptions): string => {
     return '';
   }
 
-  const specialChars = ['.', '_', '-'];
+  const specialChars = ['_', '-'];
 
   // Helper function to check if a character is a special character
   const isSpecialChar = (char: string): boolean => {
